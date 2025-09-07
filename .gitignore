@@ -1,0 +1,44 @@
+# Environment files
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Node modules
+node_modules/
+**/node_modules/
+
+# Package lock files
+package-lock.json
+**/package-lock.json
+yarn.lock
+**/yarn.lock
+pnpm-lock.yaml
+**/pnpm-lock.yaml
+
+# Python virtual env
+.venv/
+**/.venv/
+venv/
+**/venv/
+
+# VSCode config
+.vscode/
+**/.vscode/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+**/*.log
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+out/
+coverage/
