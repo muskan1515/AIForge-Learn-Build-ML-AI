@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const { config } = require("./config/envConfig");
+
+const { config } = require("../packages/config/envConfig");
+const learningContentRoutes = require("./routes/learningContent")
 
 const app = express();
 app.use(
@@ -13,8 +15,14 @@ app.use(
   })
 );
 
+app.use(express.json())
+
+app.use(express.urlencoded({ extended: true }))
+
 if (config.NODE_ENV == "development") {
   app.use(morgan("dev"));
 }
+
+app.use("/apis/learning-content", learningContentRoutes)
 
 module.exports = { app };
