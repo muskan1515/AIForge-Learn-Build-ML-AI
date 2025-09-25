@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const { config } = require("./envConfig");
-const { logger } = require("./loggerConfig");
+const { config } = require("../../packages/config/envConfig");
+const { logger } = require("../../packages/config/loggerConfig");
 
 const connectToDB = async () => {
   try {

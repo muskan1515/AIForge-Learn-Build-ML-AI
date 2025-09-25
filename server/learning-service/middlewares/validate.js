@@ -11,7 +11,7 @@ const validate = (key, schema) => {
         }
         req[key] = value
 
-        next(req)
+        next()
     }
 }
 

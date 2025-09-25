@@ -28,7 +28,7 @@ const updateIdSchema = joi.object({
     id: joi.string().hex().length(24).required()
 })
 
-const UpdateBodySchema = joi.object({
+const updateBodySchema = joi.object({
     main_topic: joi.string().required(),
     sub_topic: joi.string().required(),
     title: joi.string().required(),
@@ -48,5 +48,5 @@ module.exports = {
     bulkAddSchema,
     getSpecificSchema,
     updateIdSchema,
-    UpdateBodySchema
+    updateBodySchema
 }

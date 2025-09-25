@@ -3,13 +3,13 @@ const { bulkAdd, add, get, getAll, update, deleteSingle } = require('../controll
 const rateLimiter = require('../middlewares/rateLimiter');
 const throttler = require('../middlewares/throttler');
 const validate = require('../middlewares/validate');
-const { 
-  bulkAddSchema, 
-  addSchema, 
-  getSpecificSchema, 
-  deleteSchema, 
-  updateIdSchema, 
-  updateBodySchema 
+const {
+  bulkAddSchema,
+  addSchema,
+  getSpecificSchema,
+  deleteSchema,
+  updateIdSchema,
+  updateBodySchema
 } = require('../validators/learningContent');
 
 const router = express.Router();
@@ -23,10 +23,10 @@ router.get("/:id", throttler, validate('params', getSpecificSchema), get);
 router.get("/", throttler, getAll);
 
 router.put(
-  "/:id", 
-  rateLimiter, 
-  validate('params', updateIdSchema), 
-  validate('body', updateBodySchema), 
+  "/:id",
+  rateLimiter,
+  validate('params', updateIdSchema),
+  validate('body', updateBodySchema),
   update
 );
 

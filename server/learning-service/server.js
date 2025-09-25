@@ -2,7 +2,7 @@ const { app } = require("./app");
 const cluster = require("cluster");
 const os = require("os");
 const { config } = require("../packages/config/envConfig");
-const { connectToDB } = require("../packages/config/dbConfig");
+const { connectToDB } = require("./config/dbConfig");
 const { logger } = require("../packages/config/loggerConfig");
 const { shutdownHandler } = require("../packages/middlewares/gracefulShutdown");
 
@@ -21,10 +21,19 @@ if (cluster.isPrimary) {
   });
 
 } else {
-  const server = app.listen(config.port, async () => {
-    await connectToDB();
-    logger.info(`Worker ${process.pid} running on port: ${config.port}`);
-  });
+  (async () => {
+    try {
+      await connectToDB();
+      logger.info(`Worker ${process.pid} connected to MongoDB`);
 
-  shutdownHandler(server);
+      const server = app.listen(config.learning_service.port, () => {
+        logger.info(`Worker ${process.pid} running on port: ${config.learning_service.port}`);
+      });
+
+      shutdownHandler(server);
+    } catch (err) {
+      logger.error("Failed to connect DB", err);
+      process.exit(1);
+    }
+  })();
 }

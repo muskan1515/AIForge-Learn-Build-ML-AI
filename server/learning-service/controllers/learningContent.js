@@ -68,6 +68,14 @@ const get = async (req, res) => {
 
         const learningContent = await getSpecificContent(learningContentId)
 
+        if (!learningContent) {
+            return res.status(404).send({
+                success: false,
+                message: "No Learning Content found by this Id.",
+                learningContent: null
+            })
+        }
+
         res.status(200).send({
             success: true,
             message: "Successfully Fetched the Learning Content",
@@ -91,6 +99,14 @@ const get = async (req, res) => {
 const getAll = async (req, res) => {
     try {
         const contentList = await getAllContent()
+
+        if (!contentList.length) {
+            return res.status(404).send({
+                success: false,
+                message: "No Learning Content .",
+                contentList: []
+            })
+        }
 
         res.status(200).send({
             success: true,
@@ -131,7 +147,7 @@ const deleteSingle = async (req, res) => {
         })
     }
     catch (err) {
-        res.status(500).send({ success: false, message: "Internal Server Error" })
+        res.status(500).send({ success: false, message: err.message || "Internal Server Error" })
     }
 }
 
@@ -164,7 +180,7 @@ const update = async (req, res) => {
         })
     }
     catch (err) {
-        res.status(500).send({ success: false, message: "Internal Server Error" })
+        res.status(500).send({ success: false, message: err.message || "Internal Server Error" })
     }
 }
 

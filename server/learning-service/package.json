@@ -7,7 +7,8 @@
     "start": "nodemon server.js"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "workerThreads": false
   },
   "keywords": [],
   "author": "",
@@ -21,7 +22,7 @@
     "express-rate-limit": "^8.1.0",
     "express-slow-down": "^3.0.0",
     "joi": "^18.0.1",
-    "mongoose": "^8.18.1",
+    "mongoose": "^8.18.2",
     "morgan": "^1.10.1",
     "winston": "^3.17.0"
   },
