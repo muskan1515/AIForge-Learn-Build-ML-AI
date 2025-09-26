@@ -15,6 +15,9 @@ const {
 } = require("../utils/authUtils");
 const redisClient = require("../../packages/config/redisClientConfig");
 
+// Import email producer (RabbitMQ)
+const { sendEmail } = require("../queues/emailProducer");
+
 /**
  * Create a new user
  * @param {Object} data - {name, email, password}
@@ -36,7 +39,13 @@ const signup = async (data) => {
     verificationTokenExpires,
   });
 
-  // TODO: send email with verification link containing verificationToken
+  // 📧 Queue email for verification
+  const emailPayload = {
+    to: user.email,
+    subject: "Verify your account",
+    body: `Hello ${user.name},\n\nPlease verify your account by clicking this link: ${config.APP_URL}/verify-email?token=${token}\n\nThis link will expire in 24 hours.`,
+  };
+  await sendEmail(emailPayload);
 
   return user.toObject();
 };
@@ -140,7 +149,13 @@ const forgotPassword = async (email) => {
   user.resetPasswordExpires = Date.now() + 60 * 60 * 1000;
   await user.save();
 
-  // TODO: send email with resetToken link
+  // 📧 Queue password reset email
+  const emailPayload = {
+    to: user.email,
+    subject: "Reset your password",
+    body: `Hello ${user.name},\n\nYou requested a password reset. Use the following link to reset your password: ${config.APP_URL}/reset-password?token=${resetToken}\n\nThis link will expire in 1 hour.`,
+  };
+  await sendEmail(emailPayload);
 
   return resetToken;
 };
@@ -151,7 +166,7 @@ const forgotPassword = async (email) => {
  * @param {string} newPassword
  */
 const resetPassword = async (token, newPassword) => {
-  const hashedToken = verifyResetPasswordToken(token)
+  const hashedToken = verifyResetPasswordToken(token);
 
   const user = await User.findOne({
     resetPasswordToken: hashedToken,

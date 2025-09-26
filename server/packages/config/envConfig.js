@@ -7,6 +7,7 @@ const config = {
     process.env.MONGODB_URI ||
     "mongodb+srv://muskankushwah85:Muskan15@cluster0.mxnxlvn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
   NODE_ENV: process.env.NODE_ENV || "development",
+  APP_URL: process.env.CLIENT_URL || "",
   winston: {
     level: process.env.LEVEL || "info",
   },
@@ -30,6 +31,17 @@ const config = {
       expiresIn: process.env.REFRESH_EXPIRE_IN || "15d",
       expiresInMs: process.env.REFRESH_EXPIRE_IN_MICRO_SECS || 1296000,
     },
+  },
+  rabbitmq: {
+    URL: process.env.RABBITMQ_URL || "",
+    MAX_RETRIES: process.env.RABBITMQ_MAX_RETRIES || 3,
+  },
+  smtp: {
+    port: process.env.PORT,
+    host: process.env.HOST || "",
+    secure: process.env.SECURE || false,
+    user: process.env.SMTP_USER || "",
+    pass: process.env.SMTP_PASS || "",
   },
 };
 
