@@ -4,7 +4,8 @@ const morgan = require("morgan");
 const helmet = require("helmet")
 
 const { config } = require("../packages/config/envConfig");
-const learningContentRoutes = require("./routes/learningContent");
+const userRoutes = require("./routes/user");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 app.use(
@@ -33,6 +34,8 @@ app.use("/health", (req, res) => {
   })
 })
 
-app.use("/apis/learning-content", learningContentRoutes)
+app.use("/apis/auth", authRoutes)
+
+app.use("/apis/user", userRoutes)
 
 module.exports = { app };
