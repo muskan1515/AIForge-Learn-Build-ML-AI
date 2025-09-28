@@ -20,6 +20,9 @@ const config = {
   user_service: {
     port: process.env.USER_SERVICE_PORT || 5002,
   },
+  engagement_service: {
+    port: process.env.ENGAGEMENT_SERVICE_PORT || 5003,
+  },
   jwt: {
     accessToken: {
       secret: process.env.JWT_ACCESS_SECRET || "accesstoken",
