@@ -23,6 +23,12 @@ const config = {
   engagement_service: {
     port: process.env.ENGAGEMENT_SERVICE_PORT || 5003,
   },
+  recommendation_service: {
+    brokers: (process.env.KAFKA_BROKERS || "localhost:9092").split(","),
+    topic: process.env.KAFKA_TOPIC || "update-content-recommendation",
+    consumerGroupId: process.env.KAFKA_GROUP || "recommendation-service-group",
+    port: process.env.RECOMMENDATION_SERVICE_PORT || 5004,
+  },
   jwt: {
     accessToken: {
       secret: process.env.JWT_ACCESS_SECRET || "accesstoken",

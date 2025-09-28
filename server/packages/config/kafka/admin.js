@@ -8,7 +8,7 @@ const createTopic = async () => {
   await admin.createTopics({
     topics: [
       {
-        topic: "learning-content-events",
+        topic: "update-content-recommendation",
         numPartitions: 1,
         replicationFactor: 1,
       },
@@ -19,4 +19,4 @@ const createTopic = async () => {
   await admin.disconnect();
 };
 
-createTopic().catch(console.error);
+module.exports = { createTopic };

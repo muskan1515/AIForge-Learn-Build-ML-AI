@@ -1,0 +1,111 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+  
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15691:15691"
+    
+    networks:
+      - backend
+    
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    
+    networks:
+      - backend
+  
+  email-service:
+    build: ./email-service
+    container_name: email-service
+    ports:
+      - "5005:5000"
+    depends_on:
+      - rabbitmq
+    networks:
+      - backend
+    
+  
+  engagement-service:
+    build: ./engagement-service
+    container_name: engagement-service
+    ports:
+      - "5003:5000"
+    depends_on:
+      - kafka
+    networks:
+      - backend
+  
+  learning-service:
+    build: ./learning-service
+    container_name: learning-service
+    ports:
+      - "5001:5000"
+    depends_on:
+      - redis
+    networks:
+      - backend
+
+  
+  recommendation-service:
+    build: ./recommendation-service
+    container_name: recommendation-service
+    ports:
+      - "5004:5000"
+    depends_on:
+      - kafka
+    networks:
+      - backend
+
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "5002:5000"
+    depends_on:
+      - rabbitmq
+      - redis
+    networks:
+      - backend
+
+  
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    
+    depends_on:
+      - user-service
+      - email-service
+      - engagement-service
+      - recommendation-service
+      - learning-service
+      - packages
+    
+    networks:
+      - backend
+    
+
+networks:
+  backend:
+    driver:bridge
+
+  
